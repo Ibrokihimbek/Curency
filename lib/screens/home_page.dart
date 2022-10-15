@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:valyuta_kursi/models/flags_models.dart';
+
 import 'package:valyuta_kursi/models/valyuta_kurs_model.dart';
 
 class Home_Page extends StatefulWidget {
@@ -14,7 +15,6 @@ class Home_Page extends StatefulWidget {
 }
 
 class _Home_PageState extends State<Home_Page> {
-  
   Future<List<Valyuta_Kurs>?>? getResult;
 
   Future<List<Valyuta_Kurs>> getData() async {
@@ -70,9 +70,11 @@ class _Home_PageState extends State<Home_Page> {
             List<Valyuta_Kurs?>? valyuta = snapshot.data;
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
-              itemCount: Flags.flags.length,
+              itemCount: valyuta?.length ?? 0,
               itemBuilder: (context, index) {
-                return ValyutaWidget(Flags.flags[index], valyuta?[index]);
+                if (valyuta?[index]?.nbu_buy_price?.isEmpty == false)
+                  return ValyutaWidget(valyuta?[index]);
+                return Container();
               },
             );
           }
@@ -82,9 +84,9 @@ class _Home_PageState extends State<Home_Page> {
     );
   }
 
-  Widget ValyutaWidget(Flags flags, valyuta) {
+  Widget ValyutaWidget(valyuta) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16).r,
       child: Container(
         width: double.infinity,
         height: 160,
@@ -100,21 +102,22 @@ class _Home_PageState extends State<Home_Page> {
         ),
         child: Column(
           children: [
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Row(
               children: [
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Container(
-                  width: 60,
-                  height: 30,
+                  width: 60.w,
+                  height: 30.w,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(flags.imageName),
+                      image: NetworkImage(
+                          "https://countryflagsapi.com/png/${valyuta?.code.toString().substring(0, 2)}"),
                       fit: BoxFit.fill,
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Text(
                   valyuta?.code ?? '',
                   style: const TextStyle(
@@ -122,7 +125,7 @@ class _Home_PageState extends State<Home_Page> {
                       fontWeight: FontWeight.w600,
                       fontSize: 20),
                 ),
-                const SizedBox(width: 50),
+                SizedBox(width: 50.w),
                 Text(
                   valyuta?.date ?? '',
                   style: const TextStyle(
@@ -130,7 +133,7 @@ class _Home_PageState extends State<Home_Page> {
                       fontWeight: FontWeight.w400,
                       fontSize: 16),
                 ),
-                const SizedBox(width: 70),
+                SizedBox(width: 70.w),
                 const Icon(
                   Icons.notifications_active_outlined,
                   size: 25,
@@ -138,13 +141,12 @@ class _Home_PageState extends State<Home_Page> {
                 ),
               ],
             ),
-            const SizedBox(height: 50),
+            SizedBox(height: 50.h),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16).r,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  // SizedBox(width: 20),
                   Text(
                     'Narx',
                     style: TextStyle(
@@ -169,9 +171,9 @@ class _Home_PageState extends State<Home_Page> {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16).r,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:valyuta_kursi/screens/home_page.dart';
 import 'package:valyuta_kursi/screens/utils/images.dart';
 
@@ -31,8 +32,8 @@ class _Splash_PageState extends State<Splash_Page> {
       body: SafeArea(
         child: Center(
           child: Container(
-            width:double.infinity,
-            height: double.infinity,
+            width:double.infinity.w,
+            height: double.infinity.h,
             decoration: const BoxDecoration(
               image: DecorationImage(image: AssetImage(MyImages.gif_curensy)),
             ),
