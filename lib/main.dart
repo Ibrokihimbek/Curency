@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:valyuta_kursi/screens/home_page.dart';
 import 'package:valyuta_kursi/screens/splash_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
