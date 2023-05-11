@@ -61,10 +61,52 @@ class _Home_PageState extends State<Home_Page> {
         builder: (BuildContext context,
             AsyncSnapshot<List<Valyuta_Kurs>?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator.adaptive());
           }
           if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Center(
+                  child: Text(
+                    '''Hatolik yuz berdi internetni tekshirib ko'rib
+            yangilash tugmasini bosing''',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                SizedBox(height: 20.r),
+                InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      setState(() {
+                        getResult = getData();
+                      });
+                    },
+                    child: Container(
+                      width: 120.w,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 101, 181, 247),
+                            Color.fromARGB(255, 28, 28, 223),
+                          ],
+                        ),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Yangilash',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    )),
+              ],
+            );
           }
           if (snapshot.hasData) {
             List<Valyuta_Kurs?>? valyuta = snapshot.data;
@@ -88,8 +130,8 @@ class _Home_PageState extends State<Home_Page> {
     return Padding(
       padding: const EdgeInsets.all(16).r,
       child: Container(
-        width: double.infinity,
-        height: 160,
+        width: double.infinity.w,
+        height: 160.h,
         decoration: BoxDecoration(
           color: Colors.grey[300],
           boxShadow: [
@@ -104,28 +146,32 @@ class _Home_PageState extends State<Home_Page> {
           children: [
             SizedBox(height: 16.h),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: 16.w),
-                Container(
-                  width: 60.w,
-                  height: 30.w,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          "https://countryflagsapi.com/png/${valyuta?.code.toString().substring(0, 2)}"),
-                      fit: BoxFit.fill,
+                Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 16).r,
+                      width: 60.w,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              "https://countryflagsapi.com/png/${valyuta?.code.toString().substring(0, 2)}"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(width: 12.w),
+                    Text(
+                      valyuta?.code ?? '',
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 12.w),
-                Text(
-                  valyuta?.code ?? '',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20),
-                ),
-                SizedBox(width: 50.w),
                 Text(
                   valyuta?.date ?? '',
                   style: const TextStyle(
@@ -133,11 +179,13 @@ class _Home_PageState extends State<Home_Page> {
                       fontWeight: FontWeight.w400,
                       fontSize: 16),
                 ),
-                SizedBox(width: 70.w),
-                const Icon(
-                  Icons.notifications_active_outlined,
-                  size: 25,
-                  color: Colors.grey,
+                Padding(
+                  padding: const EdgeInsets.only(right: 16).r,
+                  child: const Icon(
+                    Icons.notifications_active_outlined,
+                    size: 25,
+                    color: Colors.grey,
+                  ),
                 ),
               ],
             ),
