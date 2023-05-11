@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:valyuta_kursi/screens/home_page.dart';
 import 'package:valyuta_kursi/screens/utils/images.dart';
 
-class Splash_Page extends StatefulWidget {
-  const Splash_Page({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<Splash_Page> createState() => _Splash_PageState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _Splash_PageState extends State<Splash_Page> {
+class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
