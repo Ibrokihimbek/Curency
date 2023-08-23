@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Home_Page(),
+          builder: (context) => HomePage(),
         ),
       ),
     );
@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
       body: SafeArea(
         child: Center(
           child: Container(
-            width:double.infinity.w,
+            width: double.infinity.w,
             height: double.infinity.h,
             decoration: const BoxDecoration(
               image: DecorationImage(image: AssetImage(MyImages.gif_curensy)),

@@ -3,29 +3,28 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 import 'package:valyuta_kursi/models/valyuta_kurs_model.dart';
 
-class Home_Page extends StatefulWidget {
-  const Home_Page({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<Home_Page> createState() => _Home_PageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _Home_PageState extends State<Home_Page> {
-  Future<List<Valyuta_Kurs>?>? getResult;
+class _HomePageState extends State<HomePage> {
+  Future<List<ValyutaKurs>?>? getResult;
 
-  Future<List<Valyuta_Kurs>> getData() async {
+  Future<List<ValyutaKurs>> getData() async {
     String url = "https://nbu.uz/uz/exchange-rates/json/";
 
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       List json = jsonDecode(response.body) as List;
-      List<Valyuta_Kurs> valyuta =
-          json.map((e) => Valyuta_Kurs.froJson(e)).toList();
+      List<ValyutaKurs> valyuta =
+          json.map((e) => ValyutaKurs.froJson(e)).toList();
       return valyuta;
     }
 
@@ -56,10 +55,10 @@ class _Home_PageState extends State<Home_Page> {
           ),
         ),
       ),
-      body: FutureBuilder<List<Valyuta_Kurs>?>(
+      body: FutureBuilder<List<ValyutaKurs>?>(
         future: getResult,
-        builder: (BuildContext context,
-            AsyncSnapshot<List<Valyuta_Kurs>?> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ValyutaKurs>?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator.adaptive());
           }
@@ -109,13 +108,14 @@ class _Home_PageState extends State<Home_Page> {
             );
           }
           if (snapshot.hasData) {
-            List<Valyuta_Kurs?>? valyuta = snapshot.data;
+            List<ValyutaKurs?>? valyuta = snapshot.data;
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: valyuta?.length ?? 0,
               itemBuilder: (context, index) {
-                if (valyuta?[index]?.nbu_buy_price?.isEmpty == false)
+                if (valyuta?[index]?.nbu_buy_price?.isEmpty == false){
                   return ValyutaWidget(valyuta?[index]);
+                }
                 return Container();
               },
             );
@@ -126,6 +126,7 @@ class _Home_PageState extends State<Home_Page> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget ValyutaWidget(valyuta) {
     return Padding(
       padding: const EdgeInsets.all(16).r,
@@ -192,9 +193,9 @@ class _Home_PageState extends State<Home_Page> {
             SizedBox(height: 50.h),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16).r,
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
                     'Narx',
                     style: TextStyle(
